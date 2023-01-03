@@ -1,13 +1,17 @@
 #### csv-to-xlsx
 
-1. replace `&lt;br\/&gt;` with ` `
-
 ```sh
-sed -i '' 's/&lt;br\/&gt;/ /g' /Users/angel/Downloads/2022-07.csv
-```
+export CSV=/Users/angel/Downloads/2022-07.csv
 
-2. convert to xlsx
+# replace &lt;br\/&gt;
+sed -i '' 's/&lt;br\/&gt;/ /g' $CSV
 
-```sh
-dotnet run -d I -d J -ds "," -dt A -dtf "dd.MM.yyyy" "/Users/angel/Downloads/2022-07.csv"
+# reverse the lines
+sed -i '' '1!G;h;$!d' $CSV
+
+# move the last line to the top
+sed -i '' '1h;1d;$!H;$!d;G' $CSV
+
+# convert to xlsx
+dotnet run -d I -d J -ds "," -dt A -dtf "dd.MM.yyyy" $CSV
 ```
